@@ -1,57 +1,61 @@
-(function(){
+(function () {
   app.controller('MyController', myController);
 
-  myController.$inject =[
+  myController.$inject = [
     '$scope',
     'regions',
     'countryList',
-    'statesList'
+    'statesList',
+    'myService'
   ]
 
   function myController(
     $scope,
     regions,
     countryList,
-    statesList
-  ){
-    $scope.myArray = [
-      { name: 'item1' },
-      { name: 'item2' }
-    ];
-  
-    $scope.myArray2 = [
-      { name: 'item1' },
-      { name: 'item2' }
-    ];
-  
-    $scope.newArray3 = {};
-    $scope.newArray3.blah = [];
-  
-    $scope.newArray = [];
-    $scope.statesNewArray = [];
-    $scope.states1 = [];
-    $scope.groupArray = [
-      {
-        groupName: "blah1",
-        suites: [{
-          name: "suite1"
-        }, {
-          name: "suite2"
-        }]
-      }, {
-        groupName: "blah2",
-        suites: [{
-          name: "suite1blah2"
-        }, {
-          name: "suite2blah2"
-        }]
-      }
-    ]
-    $scope.finalStatesArray = [];
+    statesList,
+    myService
+  ) {
+    // $scope.myArray = [
+    //   { name: 'item1' },
+    //   { name: 'item2' }
+    // ];
+
+    // $scope.myArray2 = [
+    //   { name: 'item1' },
+    //   { name: 'item2' }
+    // ];
+
+    // $scope.newArray3 = {};
+    // $scope.newArray3.blah = [];
+
+    // $scope.newArray = [];
+    // $scope.statesNewArray = [];
+    // $scope.states1 = [];
+    // $scope.groupArray = [
+    //   {
+    //     groupName: "blah1",
+    //     suites: [{
+    //       name: "suite1"
+    //     }, {
+    //       name: "suite2"
+    //     }]
+    //   }, {
+    //     groupName: "blah2",
+    //     suites: [{
+    //       name: "suite1blah2"
+    //     }, {
+    //       name: "suite2blah2"
+    //     }]
+    //   }
+    // ]
+    // $scope.finalStatesArray = [];
+     var data= myService.getService1();
+     console.log(data)
     $scope.newRegions = [];
     $scope.regions = regions;
     $scope.selected = '';
-    
+
     $scope.generateArray = function () {
       $scope.finalStatesArray = [];
       if ($scope.statesNewArray && $scope.statesNewArray.length) {
@@ -72,7 +76,7 @@
       } else {
         $scope.finalStatesArray = [];
       }
-  
+
     }
     $scope.generateArray1 = function (val) {
       $scope.finalStatesArray = [];
@@ -82,7 +86,7 @@
         $scope.fillArray(statesList);
       }
     }
-  
+
     $scope.fillArray = function (inputArray) {
       if (inputArray && inputArray.length) {
         angular.forEach(inputArray, function (item, index) {
@@ -103,12 +107,12 @@
         $scope.finalStatesArray = [];
       }
     }
-  
+
     $scope.checkIfEmpty = function () {
       return $scope.statesNewArray.length === 0;
       $scope.finalStatesArray = [];
     }
-  
+
     $scope.emptyArray = function () {
       $scope.finalStatesArray = [];
     }
@@ -128,9 +132,25 @@
       document.getElementById("4321").checked = false;
     }
     $scope.emptySelectedServiceUnitsArray = function () {
-      $scope.selectedServiceUnitsArray = [];
-      $scope.finalSubDivisionsArray = [];
-      $scope.selectedSubdivisionArray = [];
+      // $scope.selectedServiceUnitsArray = [];
+      // $scope.finalSubDivisionsArray = [];
+      // $scope.selectedSubdivisionArray = [];
+      if ($scope.selectedServiceUnitsArray && $scope.selectedServiceUnitsArray.length) {
+        $scope.unSelectItems($scope.selectedServiceUnitsArray);
+      }
+      if ($scope.finalSubDivisionsArray && $scope.finalSubDivisionsArray.length) {
+        $scope.unSelectItems($scope.finalSubDivisionsArray);
+      }
+      if ($scope.selectedSubdivisionArray && $scope.selectedSubdivisionArray.length) {
+        $scope.unSelectItems($scope.selectedSubdivisionArray);
+      }
+    }
+    $scope.unSelectItems = function (inputArr) {
+      if (inputArr && inputArr.length) {
+        angular.forEach(inputArr, function (val, i) {
+          val.ticked = false;
+        })
+      }
     }
     $scope.emptySelectedSubdivisionArray = function () {
       $scope.selectedSubdivisionArray = [];
@@ -142,7 +162,7 @@
     }
     //radio button
     $scope.radioChanged = function (item) {
-  
+
       if (item && item.regionName) {
         //disable other things
         angular.forEach(regions, function (value, index) {
@@ -168,17 +188,17 @@
         });
       }
     };
-  
+
     //Service UNits
     $scope.finalServiceUnitsArray = [];
     $scope.selectedServiceUnitsArray = [];
     $scope.selectedSubdivisionsArray = [];
-  
+
     $scope.generateServiceUnits = function (val) {
-      $scope.finalServiceUnitsArray=[];
-      $scope.selectedServiceUnitsArray=[];
-      $scope.finalSubDivisionsArray=[];
-      $scope.selectedSubdivisionArray=[];
+      $scope.finalServiceUnitsArray = [];
+      $scope.selectedServiceUnitsArray = [];
+      $scope.finalSubDivisionsArray = [];
+      $scope.selectedSubdivisionArray = [];
       $scope.emptySelectedServiceUnitsArray();
       if (!val) {
         $scope.fillServiceUnitsArray($scope.newRegions);
@@ -186,7 +206,7 @@
         $scope.fillServiceUnitsArray(regions);
       }
     }
-  
+
     $scope.fillServiceUnitsArray = function (inputArray) {
       var isRadioSelected = false;
       if (inputArray && inputArray.length) {
@@ -219,9 +239,9 @@
         $scope.uncheckRadioButtons();
         $scope.finalServiceUnitsArray = [];
       }
-      if($scope.finalServiceUnitsArray && $scope.finalServiceUnitsArray.length){
-        angular.forEach($scope.finalServiceUnitsArray,function(item ,j){
-         item.ticked=false;
+      if ($scope.finalServiceUnitsArray && $scope.finalServiceUnitsArray.length) {
+        angular.forEach($scope.finalServiceUnitsArray, function (item, j) {
+          item.ticked = false;
         })
       }
     }
@@ -233,7 +253,7 @@
     //sub divisions
     $scope.finalSubDivisionsArray = [];
     $scope.generateSubdivisions = function (val) {
-     // $scope.finalSubDivisionsArray = [];
+      // $scope.finalSubDivisionsArray = [];
       if (!val) {
         $scope.fillSubdivisonArray($scope.selectedServiceUnitsArray);
       } else {
@@ -259,10 +279,10 @@
       } else {
         $scope.finalSubDivisionsArray = [];
       }
-  
+
     }
-  
-  
+
+
     $scope.finalData = {
       startDate: $scope.model1.startDate,
       endDate: $scope.model1.endDate,
@@ -300,7 +320,7 @@
       console.log($scope.finalData);
     }
     $scope.resetForm = function () {
-  
+
       $scope.newRegions = [];
       $scope.selectedServiceUnitsArray = [];
       $scope.finalServiceUnitsArray = [];
@@ -324,10 +344,10 @@
         }
       })
     }
-  
-    $scope.isDisabled=function(){
-      if(!$scope.newRegions || !$scope.newRegions.length)
-      return true;
+
+    $scope.isDisabled = function () {
+      if (!$scope.newRegions || !$scope.newRegions.length)
+        return true;
     }
   }
 }())
